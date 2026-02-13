@@ -3,184 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special for You ❤️</title>
+    <title>Our Story ❤️</title>
     <style>
-        * { box-sizing: border-box; }
+        :root {
+            --biru-muda: #87CEEB;
+            --pink-soft: #FFB6C1;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+
         body {
             margin: 0;
-            background-color: #87CEEB; /* Biru Cerah */
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: var(--biru-muda);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            overflow-x: hidden;
         }
 
-        /* Animasi Love Melayang */
-        .heart {
-            position: absolute;
-            color: white;
-            animation: floatUp 4s linear infinite;
-            opacity: 0.7;
-            z-index: 1;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) rotate(0deg); }
-            100% { transform: translateY(-10vh) rotate(360deg); }
+        /* Animasi Love Latar Belakang */
+        .heart-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
         }
 
-        /* Container Utama */
-        .window {
-            width: 90%;
-            max-width: 400px;
-            height: 580px;
-            position: relative;
-            overflow: hidden; 
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            z-index: 10;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: white;
-            padding: 20px;
+        /* Section Styling */
+        section {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            text-align: center;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 8px solid #FFB6C1;
-            border-radius: 30px;
+            padding: 50px 20px;
+            position: relative;
         }
 
-        /* Animasi Geser Bawah */
-        .slide { transform: translateY(-100%); }
-        .slide.active { transform: translateY(0); }
-        .slide.exit { transform: translateY(100%); }
+        /* Hero / Awal */
+        .hero { text-align: center; background: white; border-bottom: 5px solid var(--pink-soft); }
+        .hero h1 { font-size: 2.5rem; color: #ff4d6d; margin-bottom: 20px; }
+
+        /* Container Story */
+        .story-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 1000px;
+            gap: 30px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+        }
+
+        /* Kelas untuk memicu animasi saat di scroll/pencet */
+        .show { opacity: 1; transform: translateY(0); }
 
         .photo-frame {
-            width: 100%;
-            height: 250px;
+            flex: 1;
+            max-width: 400px;
+            height: 300px;
+            border: 10px solid white;
             border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             overflow: hidden;
-            border: 4px solid #87CEEB;
-            margin-top: 10px;
-            background-color: #f9f9f9;
+            transition: transform 0.5s;
         }
+        .photo-frame:hover { transform: scale(1.05) rotate(2deg); }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        .note-box {
-            background: #f0f8ff;
-            padding: 15px;
-            border-radius: 15px;
-            margin-top: 15px;
-            border-left: 5px solid #ff4d6d;
-            font-style: italic;
-            color: #333;
-            font-size: 14px;
-            min-height: 80px;
+        .text-box {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        h2 { color: #ff4d6d; margin: 15px 0 5px 0; }
+        /* Layout Selang Seling */
+        .reverse { flex-direction: row-reverse; }
+
         .btn-next {
             background: #ff4d6d;
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: bold;
-            margin-top: auto;
-            margin-bottom: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
             transition: 0.3s;
         }
-        .btn-next:hover { transform: scale(1.05); background: #e63958; }
-        .character { font-size: 40px; }
+        .btn-next:hover { transform: scale(1.1); background: #e63958; }
+
+        .character { font-size: 50px; display: block; margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .story-container, .reverse { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="window">
-        <div class="slide active" id="slide0">
-            <div class="character">🐰✨</div>
-            <h2>Haloo Sayang!</h2>
+    <div class="heart-bg" id="heartContainer"></div>
+
+    <section class="hero" id="sec0">
+        <span class="character">💌</span>
+        <h1>Halo Cantik...</h1>
+        <p style="max-width: 500px; font-size: 1.2rem;">
+            "Hari ini spesial banget, jadi aku buatin sesuatu yang simpel tapi tulus buat kamu. Coba klik tombol di bawah deh..."
+        </p>
+        <button class="btn-next" onclick="scrollToSec('sec1')">Lanjutkan ➔</button>
+    </section>
+
+    <section id="sec1">
+        <div class="story-container">
+            <div class="text-box">
+                <h2>Pertama...</h2>
+                <p>Di sini isi tulisanmu lek. Misal: Pas pertama kali liat kamu, dunia rasanya lebih cerah. Gak nyangka kita bisa sejauh ini.</p>
+            </div>
             <div class="photo-frame">
                 <img src="https://lh3.googleusercontent.com/d/1uQRiOBLfizaOfeZN_760fo4KAH-s6OuG" alt="Foto 1">
             </div>
-            <div class="note-box">
-                "Cuma mau bilang, makasih ya udah jadi bagian paling indah di hidupku. Besok Valentine, aku punya kejutan kecil..."
-            </div>
-            <button class="btn-next" onclick="changeSlide(1)">Buka Kejutannya ➔</button>
         </div>
+        <button class="btn-next" onclick="scrollToSec('sec2')">Apa lagi ya? ➔</button>
+    </section>
 
-        <div class="slide" id="slide1">
-            <div class="character">🐱💖</div>
-            <h2>Momen Kita</h2>
+    <section id="sec2">
+        <div class="story-container reverse">
+            <div class="text-box">
+                <h2>Terus...</h2>
+                <p>Isi tulisan kedua di sini. Misal: Inget nggak pas momen ini? Kita ketawa bareng sampe lupa waktu. Makasih ya udah nemenin aku terus.</p>
+            </div>
             <div class="photo-frame">
                 <img src="https://lh3.googleusercontent.com/d/1cpP3b4S_Jm90z4LT8fTL_pj98OvEblnG" alt="Foto 2">
             </div>
-            <div class="note-box">
-                "Inget momen ini? Rasanya baru kemarin kita ketawa bareng. Semoga tawa ini nggak pernah ilang ya..."
-            </div>
-            <button class="btn-next" onclick="changeSlide(2)">Lanjut Lagi ➔</button>
         </div>
+        <button class="btn-next" onclick="scrollToSec('sec3')">Lanjut Lagi ➔</button>
+    </section>
 
-        <div class="slide" id="slide2">
-            <div class="character">🐻🎈</div>
-            <h2>Happy Valentine!</h2>
+    <section id="sec3">
+        <div class="story-container">
+            <div class="text-box">
+                <h2>Dan Akhirnya...</h2>
+                <p>Selamat hari Valentine sayang! Semoga kita tetep begini terus ya, saling sayang dan saling jaga. I Love You!</p>
+                <span style="font-size: 30px;">🐻❤️🐱</span>
+            </div>
             <div class="photo-frame">
                 <img src="https://lh3.googleusercontent.com/d/1tdRTuMFiNM3uvjZKVz8mmzPKqoUEY5xB" alt="Foto 3">
             </div>
-            <div class="note-box">
-                "Selamat hari kasih sayang! I love you more than words can say. Langgeng terus ya kita! ❤️"
-            </div>
-            <button class="btn-next" onclick="changeSlide(0)">Ulangi dari Awal? ↻</button>
         </div>
-    </div>
+        <button class="btn-next" onclick="window.scrollTo(0,0)">Kembali ke Atas ↻</button>
+    </section>
 
     <script>
-        // Animasi Love Melayang
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = Math.random() > 0.5 ? '💙' : '🤍';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
-        }
-        setInterval(createHeart, 300);
-
-        // Logika Geser Bawah
-        let current = 0;
-        function changeSlide(next) {
-            const currentSlide = document.getElementById('slide' + current);
-            const nextSlide = document.getElementById('slide' + next);
-
-            currentSlide.classList.remove('active');
-            currentSlide.classList.add('exit');
-
-            nextSlide.style.transition = 'none';
-            nextSlide.classList.remove('exit');
-            nextSlide.style.transform = 'translateY(-100%)';
+        // Fungsi Scroll Smooth & Trigger Animasi
+        function scrollToSec(id) {
+            const target = document.getElementById(id);
+            target.scrollIntoView({ behavior: 'smooth' });
             
+            // Tambahkan animasi show pada container di dalam section tersebut
             setTimeout(() => {
-                nextSlide.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-                nextSlide.classList.add('active');
-            }, 50);
-
-            setTimeout(() => {
-                currentSlide.classList.remove('exit');
-            }, 800);
-
-            current = next;
+                target.querySelector('.story-container').classList.add('show');
+            }, 500);
         }
+
+        // Animasi Love Melayang (Background)
+        function createHeart() {
+            const container = document.getElementById('heartContainer');
+            const heart = document.createElement('div');
+            heart.style.position = 'absolute';
+            heart.innerHTML = '💙';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.opacity = '0.5';
+            
+            const animation = heart.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 0.5 },
+                { transform: `translateY(-110vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 3000 + 3000,
+                easing: 'linear'
+            });
+
+            container.appendChild(heart);
+            animation.onfinish = () => heart.remove();
+        }
+        setInterval(createHeart, 400);
+
+        // Munculin animasi awal pas load
+        window.onload = () => {
+             document.querySelector('.hero').classList.add('show');
+        };
     </script>
 </body>
 </html>
-
