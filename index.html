@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untuk Sayangku</title>
+    <title>Special for You ❤️</title>
     <style>
+        * { box-sizing: border-box; }
         body {
             margin: 0;
-            padding: 0;
             background-color: #87CEEB; /* Biru Cerah */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -20,108 +20,125 @@
         /* Animasi Love Melayang */
         .heart {
             position: absolute;
-            color: #ff4d4d;
-            font-size: 20px;
-            animation: move 5s linear infinite;
+            color: white;
+            animation: floatUp 4s linear infinite;
             opacity: 0.7;
+            z-index: 1;
         }
-
-        @keyframes move {
-            0% { transform: translateY(100vh) rotate(0deg); }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); }
             100% { transform: translateY(-10vh) rotate(360deg); }
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-            width: 80%;
+        /* Container Utama */
+        .window {
+            width: 90%;
             max-width: 400px;
+            height: 580px;
             position: relative;
+            overflow: hidden; 
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             z-index: 10;
-            border: 5px solid #fff;
         }
 
-        .slide { display: none; }
-        .active { display: block; animation: fadeIn 0.8s; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 8px solid #FFB6C1;
+            border-radius: 30px;
         }
+
+        /* Animasi Geser Bawah */
+        .slide { transform: translateY(-100%); }
+        .slide.active { transform: translateY(0); }
+        .slide.exit { transform: translateY(100%); }
 
         .photo-frame {
             width: 100%;
             height: 250px;
-            border: 8px solid #FFB6C1;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            margin-bottom: 15px;
-            background: #eee;
+            border: 4px solid #87CEEB;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        .note-box {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border-left: 5px solid #ff4d6d;
+            font-style: italic;
+            color: #333;
+            font-size: 14px;
+            min-height: 80px;
         }
 
-        .photo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        h2 { color: #2c3e50; margin-bottom: 10px; }
-        p { color: #555; line-height: 1.5; }
-
+        h2 { color: #ff4d6d; margin: 15px 0 5px 0; }
         .btn-next {
-            background: #ff4d4d;
+            background: #ff4d6d;
             color: white;
             border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
+            padding: 12px 30px;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: auto;
+            margin-bottom: 10px;
             transition: 0.3s;
         }
-
-        .btn-next:hover { background: #ff1a1a; transform: scale(1.1); }
-
-        .character {
-            font-size: 40px;
-            margin-top: 10px;
-        }
+        .btn-next:hover { transform: scale(1.05); background: #e63958; }
+        .character { font-size: 40px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="slide active">
-            <div class="character">🐰💖</div>
-            <h2>Halo Sayang!</h2>
+    <div class="window">
+        <div class="slide active" id="slide0">
+            <div class="character">🐰✨</div>
+            <h2>Haloo Sayang!</h2>
             <div class="photo-frame">
-                <img src="https://drive.google.com/uc?export=view&id=1cpP3b4S_Jm90z4LT8fTL_pj98OvEblnG" alt="Foto 1">
+                <img src="https://lh3.googleusercontent.com/d/1uQRiOBLfizaOfeZN_760fo4KAH-s6OuG" alt="Foto 1">
             </div>
-            <p>Besok kan Valentine, aku punya sesuatu buat kamu...</p>
-            <button class="btn-next" onclick="nextSlide()">Klik di sini ya! ➔</button>
+            <div class="note-box">
+                "Cuma mau bilang, makasih ya udah jadi bagian paling indah di hidupku. Besok Valentine, aku punya kejutan kecil..."
+            </div>
+            <button class="btn-next" onclick="changeSlide(1)">Buka Kejutannya ➔</button>
         </div>
 
-        <div class="slide">
-            <div class="character">🐱✨</div>
-            <h2>Ingat Ini Gak?</h2>
+        <div class="slide" id="slide1">
+            <div class="character">🐱💖</div>
+            <h2>Momen Kita</h2>
             <div class="photo-frame">
-                <img src="https://drive.google.com/uc?export=view&id=1cpP3b4S_Jm90z4LT8fTL_pj98OvEblnG" alt="Foto 2">
+                <img src="https://lh3.googleusercontent.com/d/1cpP3b4S_Jm90z4LT8fTL_pj98OvEblnG" alt="Foto 2">
             </div>
-            <p>Salah satu momen paling favorit aku bareng kamu.</p>
-            <button class="btn-next" onclick="nextSlide()">Lanjut lagi... ➔</button>
+            <div class="note-box">
+                "Inget momen ini? Rasanya baru kemarin kita ketawa bareng. Semoga tawa ini nggak pernah ilang ya..."
+            </div>
+            <button class="btn-next" onclick="changeSlide(2)">Lanjut Lagi ➔</button>
         </div>
 
-        <div class="slide">
+        <div class="slide" id="slide2">
             <div class="character">🐻🎈</div>
             <h2>Happy Valentine!</h2>
             <div class="photo-frame">
-                <img src="https://drive.google.com/uc?export=view&id=1uQRiOBLfizaOfeZN_760fo4KAH-s6OuG" alt="Foto 3">
+                <img src="https://lh3.googleusercontent.com/d/1tdRTuMFiNM3uvjZKVz8mmzPKqoUEY5xB" alt="Foto 3">
             </div>
-            <p>Terima kasih ya sudah selalu ada. I Love You More! ❤️</p>
-            <button class="btn-next" onclick="resetSlide()">Ulangi dari Awal? ↻</button>
+            <div class="note-box">
+                "Selamat hari kasih sayang! I love you more than words can say. Langgeng terus ya kita! ❤️"
+            </div>
+            <button class="btn-next" onclick="changeSlide(0)">Ulangi dari Awal? ↻</button>
         </div>
     </div>
 
@@ -130,29 +147,40 @@
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            heart.innerHTML = '❤️';
+            heart.innerHTML = Math.random() > 0.5 ? '💙' : '🤍';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
             document.body.appendChild(heart);
             setTimeout(() => { heart.remove(); }, 5000);
         }
         setInterval(createHeart, 300);
 
-        // Fungsi Slide
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
+        // Logika Geser Bawah
+        let current = 0;
+        function changeSlide(next) {
+            const currentSlide = document.getElementById('slide' + current);
+            const nextSlide = document.getElementById('slide' + next);
 
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
+            currentSlide.classList.remove('active');
+            currentSlide.classList.add('exit');
 
-        function resetSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = 0;
-            slides[currentSlide].classList.add('active');
+            nextSlide.style.transition = 'none';
+            nextSlide.classList.remove('exit');
+            nextSlide.style.transform = 'translateY(-100%)';
+            
+            setTimeout(() => {
+                nextSlide.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                nextSlide.classList.add('active');
+            }, 50);
+
+            setTimeout(() => {
+                currentSlide.classList.remove('exit');
+            }, 800);
+
+            current = next;
         }
     </script>
 </body>
 </html>
+
